@@ -1,14 +1,10 @@
-import itertools
-import math
-from collections import defaultdict
-import random
 import networkx as nx
-from networkx.utils import py_random_state
-
+import random
 import matplotlib.pyplot as plt
 
+
 # @py_random_state(3)
-def homogenous_small_word_graph(n, k, p, seed=None):
+def homogeneous_small_word_graph(n, k, p, seed=None):
     """Returns a homogenous small-world graph.
 
     Parameters
@@ -17,17 +13,10 @@ def homogenous_small_word_graph(n, k, p, seed=None):
         The number of nodes
     k : int
         Each node is joined with its `k` nearest neighbors in a ring
-        topology. Assumed even
+        topology. k is asssumed even
     p : float
         The probability of rewiring each edge
-    seed : integer, random_state, or None (default)
-        Indicator of random number generation state.
-        See :ref:`Randomness<randomness>`.
-
-    See Also
-    --------
-    newman_watts_strogatz_graph
-    connected_watts_strogatz_graph
+    seed : UNUSED
     """
 
     if k > n:
@@ -62,37 +51,35 @@ def homogenous_small_word_graph(n, k, p, seed=None):
         a, b = ab
         c, d = cd
 
-        if a == b or a == d or b == c or b == d:
+        # Ensure a,b,c,d are all distinct
+        if a == c or a == d or b == c or b == d:
             continue
 
+        # Prevent double edges
         if G.has_edge(a, d) or G.has_edge(b, c):
-            if G.has_edge(a, c) or G.has_edge(b, d):
-                continue
-            # Add horiztonal swapped edges
-            G.add_edge(a, c)
-            G.add_edge(b, d)
+            continue
 
-        else:
-            # Add diagonal swapped edges
-            G.add_edge(a, d)
-            G.add_edge(b, c)
-
+        # Rewire edges to AD, BC
+        G.add_edge(a, d)
+        G.add_edge(b, c)
         G.remove_edge(a, b)
         G.remove_edge(c, d)
 
         i += 1
     return G
 
-g1 = nx.generators.watts_strogatz_graph(50, 2, 0)
-print(len(g1.edges))
+
+if __name__ == "__main__":
+    g1 = nx.generators.watts_strogatz_graph(50, 2, 0)
+    print(len(g1.edges))
 
 
-g2 = homogenous_small_word_graph(50, 4, 0.1)
-nx.draw_networkx(g2)
-plt.show()
+    g2 = homogeneous_small_word_graph(50, 4, 0.1)
+    nx.draw_networkx(g2)
+    plt.show()
 
 
-print(set(list(zip(*g2.degree))[1]))
+    print(set(list(zip(*g2.degree))[1]))
 
 
 
