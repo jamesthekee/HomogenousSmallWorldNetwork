@@ -22,6 +22,9 @@ def homogeneous_small_word_graph(n, k, p, seed=None):
     if k > n:
         raise nx.NetworkXError("k>n, choose smaller k or larger n")
 
+    if k % 2 != 0:
+        raise ValueError("Odd values for K not accepted")
+
     # If k == n, the graph is complete not Watts-Strogatz
     if k == n:
         return nx.complete_graph(n)
@@ -41,7 +44,6 @@ def homogeneous_small_word_graph(n, k, p, seed=None):
 
     i = 0
     while i < steps:
-        print(len(list(G.edges)))
         ab = random.choice(list(G.edges))
         cd = random.choice(list(G.edges))
 
