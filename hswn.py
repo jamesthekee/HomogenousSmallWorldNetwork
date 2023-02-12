@@ -29,16 +29,16 @@ def homogeneous_small_word_graph(n, k, p, seed=None):
     if k == n:
         return nx.complete_graph(n)
 
+    # Step 1: Create regular graph with degree K
     G = nx.Graph()
-    nodes = list(range(n))  # nodes are labeled 0 to n-1
+    nodes = list(range(n))
     # connect each node to k/2 neighbors
     for j in range(1, k // 2 + 1):
         targets = nodes[j:] + nodes[0:j]  # first j nodes are now last in list
         G.add_edges_from(zip(nodes, targets))
 
-    # rewire edges from each node
-    # loop over all nodes in order (label) and neighbors in order (distance)
-    # no self loops or multiple edges allowed
+    # Step 2: Rewire randomly to retain uniform degree distribution
+    #  and to avoid self loops or multiple edges allowed
     total_edges = (n*k) // 2
     steps = int(total_edges*p)
 
@@ -72,17 +72,9 @@ def homogeneous_small_word_graph(n, k, p, seed=None):
 
 
 if __name__ == "__main__":
-    g1 = nx.generators.watts_strogatz_graph(50, 2, 0)
-    print(len(g1.edges))
-
-
-    g2 = homogeneous_small_word_graph(50, 4, 0.1)
-    nx.draw_networkx(g2)
+    graph = homogeneous_small_word_graph(50, 4, 0.1)
+    nx.draw_networkx(graph)
     plt.show()
-
-
-    print(set(list(zip(*g2.degree))[1]))
-
 
 
 

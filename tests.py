@@ -3,6 +3,7 @@ from hswn import *
 
 # param_list = [(50, 4, 0), (100, 6, 0.5), (200, 8, 0.9), (200, 8, 5)]
 
+
 class TestGraphProperties(unittest.TestCase):
 
     def test_degree(self):
