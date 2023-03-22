@@ -15,7 +15,7 @@ When P > 1 the network topology is essentially random
 
 ## References
 
-Here are some papers using this
+Here are some papers using this algorithm.
 
 1. Santos et al. Epidemic spreading and cooperation dynamics on homogeneous small-world networks. Phys. Rev. E 72, 056128 (2005).
 2. Zhang et al. Effects of behavioral response and vaccination policy on epidemic spreading - an approach based on evolutionary-game dynamics. Sci Rep 4, 5666 (2015).
